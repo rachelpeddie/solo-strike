@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { IconContext } from 'react-icons';
 import { FaTint } from 'react-icons/fa';
 import axios from 'axios';
+
+import Search from './components/searchFunction/search';
 import './App.css';
 
 //moment
@@ -68,11 +70,16 @@ class App extends Component {
 
   render() {
     return (
+      <div>
+        <center>
+      <Search />
       <IconContext.Provider value={{ color: 'teal'}}>
       <div>
         <button onClick={this.waterPlant}><FaTint size={70}/></button>
       </div>
       </IconContext.Provider>
+      </center>
+      </div>
     );
   }
 }

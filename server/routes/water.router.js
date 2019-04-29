@@ -7,6 +7,22 @@ const client = require('twilio')(accountSid, authToken);
 const cron = require('node-cron');
 const pool = require('../pool');
 
+router.get('/', (req, res) => {
+    let search = req.query.search
+    let url = process.env.API_URL
+    let key = process.env.API_KEY
+    console.log(`values are ${search}, ${url}, ${key}`);
+    
+    axios.get(`${url}?token=${key}&q=${search}&total=10`)
+    .then(response => {
+        res.send(response.data)
+        console.log(`woot!  got stuff for plant on serverside`, response);
+    }).catch( error => {
+        console.log(`error getting plant stuff`, error);
+        res.sendStatus(500);
+    })
+})
+
 router.post('/', (req, res) => {
     console.log(`req.body is`, req.body);
     
@@ -45,8 +61,11 @@ function checkWater (){
     }
 
 
-cron.schedule('* * * * *', () => {
-    console.log(`running node cron every minute`);
+cron.schedule('56 11 * * *', () => {
+    console.log(`running node cron at 12pm`);
     // checkWater();
-});
+},
+    {
+        scheduled: true,
+    });
 module.exports = router;
