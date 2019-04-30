@@ -6,6 +6,11 @@ import axios from 'axios';
 import Search from './components/searchFunction/search';
 import './App.css';
 
+//uppy imports
+const Uppy = require('@uppy/core')
+const XHRUpload = require('@uppy/xhr-upload')
+const Dashboard = require('@uppy/dashboard')
+
 //moment
 var moment = require('moment');
 
@@ -69,6 +74,15 @@ class App extends Component {
   }
 
   render() {
+    const uppy = Uppy()
+      .use(Dashboard, {
+        trigger: '#select-files'
+      })
+      .use(XHRUpload, { endpoint: 'https://api2.transloadit.com' })
+
+    uppy.on('complete', (result) => {
+      console.log('Upload complete! We’ve uploaded these files:', result.successful)
+    })
     return (
       <div>
         <center>
